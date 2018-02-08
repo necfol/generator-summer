@@ -1,0 +1,180 @@
+swagger: "2.0"
+info:
+  version: "0.0.1"
+  title: channelfy
+# during dev, should point to your local machine
+host: localhost:55501
+# 新增Https 端口配置选项
+# x-ssl-port: 44301
+# basePath prefixes all resource paths 
+basePath: /
+# 
+schemes:
+  # tip: remove http to make production-grade
+  - http
+  - https
+# format of bodies a client can send (Content-Type)
+consumes:
+  - application/json
+  - text/html
+# format of the responses to the client (Accepts)
+produces:
+  - application/json
+  - text/html
+paths:
+  /mock:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: MockController
+    get:
+      description: Mock Example
+      # MIC 自定义MOCK 规则
+      operationId: mock
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: object
+            properties:
+              my_int:
+                type: integer
+              my_number:
+                type: number
+              my_string:
+                type: string
+                minLength: 10
+                maxLength: 100
+              my_date:
+                type: string
+                format: date
+              my_email:
+                type: string
+                format: email
+              my_color:
+                type: string
+                format: color
+              my_web:
+                type: string
+                format: web
+              my_text:
+                type: string
+                format: text
+              my_name:
+                type: string
+                format: name
+              my_image:
+                type: string
+                format: image
+              my_boolean:
+                type: boolean
+              my_array1:
+                type: array
+                minItems: 1
+                maxItems: 5
+                items:
+                  type: string
+                  format: name
+              my_array2:
+                type: array
+                minItems: 5
+                maxItems: 10
+                items:
+                  $ref: '#/definitions/MockResponse'
+
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /index:
+    x-swagger-router-controller: HtmlController
+    get:
+      description: Render Example
+      operationId: html
+      x-render: 'index'
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: object
+            properties:
+              engine:
+                type: string
+              xss:
+                type: string
+              items:
+                type: array
+                items:
+                  $ref: '#/definitions/IndexResponse'
+  /html:
+    # binds a127 app logic to a route
+    x-swagger-router-controller: HtmlController
+    get:
+      description: Mock Example
+      # MIC 自定义MOCK规则
+      operationId: html
+      x-render: ['login','index']
+      x-render-example: 'index'
+      responses:
+        "200":
+          description: Success
+          schema:
+            type: object
+            properties:
+              engine:
+                type: string
+              xss:
+                type: string
+              items:
+                type: array
+                items:
+                  $ref: '#/definitions/IndexResponse'
+
+        # responses may fall through to errors
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /swagger:
+    x-swagger-pipe: swagger_raw
+# complex objects have schema definitions
+definitions:
+  IndexResponse:
+    required:
+      - name
+      - id
+    properties:
+      id:
+        type: string
+        pattern: '[a-zA-Z0-9]{5,8}'
+      html_url:
+        type: string
+        format: web
+      name:
+        type: string
+        enum: [cat, dog, bird]
+      stargazers_count:
+        type: integer
+      forks:
+        type: string
+      description:
+        type: string
+        format: text
+  MockResponse:
+    required:
+      - name
+    properties:
+      name:
+        type: string
+        pattern: '[a-zA-Z0-9]{5,8}'
+      dob:
+        type: string
+        format: date
+      type:
+        type: string
+        enum: [cat, dog, bird]
+  ErrorResponse:
+    required:
+      - message
+    properties:
+      message:
+        type: string

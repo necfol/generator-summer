@@ -1,0 +1,30 @@
+{
+  "name": "generator-summer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/necfol/generator-summer.git"
+  },
+  "keywords": [
+    "generator-summer"
+  ],
+  "files": [
+    "generator-summer"
+  ],
+  "author": "Necfol",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/necfol/generator-summer/issues"
+  },
+  "homepage": "https://github.com/necfol/generator-summer#readme",
+  "dependencies": {
+    "chalk": "^2.3.0",
+    "write-yaml": "^1.0.0",
+    "yeoman-generator": "^2.0.2"
+  }
+}
