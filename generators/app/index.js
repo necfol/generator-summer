@@ -20,7 +20,12 @@ module.exports = class extends Generator {
         name    : 'name',
         message : 'Your project name',
         default : this.options.appname
-      }, {
+      },{
+        type    : 'input',
+        name    : 'domain',
+        message : 'Project Domain',
+        default : `www.${this.options.appname}.com`
+  }   , {
         type: "list",
         name: "tmpl",
         message: "Choose Your Template",
